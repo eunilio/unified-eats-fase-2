@@ -19,38 +19,43 @@ A arquitetura segue os princípios da **Clean Architecture**, conforme apresenta
 ```mermaid
 flowchart LR
   %% Clean Architecture - modelo clássico (Uncle Bob)
-  subgraph F["Frameworks & Drivers (Detalhes)"]
-    WEB[Web / Spring MVC]
-    DB[(Database)]
-    EXT[External Services]
+
+  subgraph F["Frameworks & Drivers"]
+    WEB["Web / Spring MVC"]
+    DB["Database"]
+    EXT["External Services"]
   end
 
-  subgraph IA["Interface Adapters (Adaptadores)"]
-    CTRL[Controllers]
-    PRES[Presenters / Mappers]
-    GATE[Gateways / Repositories (impl)]
+  subgraph IA["Interface Adapters"]
+    CTRL["Controllers"]
+    PRES["Presenters / Mappers"]
+    GATE["Gateways - Repository Impl"]
   end
 
-  subgraph UC["Use Cases (Application)"]
-    INP[Input Port]
-    INTER[Use Case Interactor]
-    OUTP[Output Port]
+  subgraph UC["Use Cases"]
+    INP["Input Port"]
+    INTER["Use Case Interactor"]
+    OUTP["Output Port"]
   end
 
-  subgraph ENT["Entities (Domain)"]
-    ENTITIES[Entities]
-    RULES[Enterprise Business Rules]
+  subgraph ENT["Entities"]
+    ENTITIES["Entities"]
+    RULES["Business Rules"]
   end
 
   %% Fluxo de entrada
-  WEB --> CTRL --> PRES --> INP --> INTER --> ENTITIES
+  WEB --> CTRL --> INP --> INTER --> ENTITIES
   ENTITIES --> RULES
 
-  %% Fluxo de saída / persistência
+  %% Fluxo de saída
   INTER --> OUTP
   GATE --> OUTP
   GATE --> DB
   EXT --> OUTP
+
+  %% Adapters
+  CTRL --> PRES
+  PRES --> INP
 ```
 
 ---
