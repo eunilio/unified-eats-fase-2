@@ -1,110 +1,105 @@
-# Unified Eats – Fase 2
+# Unified Eats – Tech Challenge Fase 2
 
-Projeto do Tech Challenge (Fase 2) com foco em **Clean Architecture**, boas práticas e separação clara entre regras de negócio e detalhes técnicos.
+Projeto desenvolvido como parte do **Tech Challenge – Fase 2 (FIAP)**, com foco em **Clean Architecture**, boas práticas de design, separação de responsabilidades e evolução do domínio de forma desacoplada de frameworks.
 
 ---
 
 ## Objetivo
 
-Construir uma API backend organizada, evolutiva e desacoplada de frameworks, facilitando testes, manutenção e crescimento do domínio ao longo do projeto.
+Construir uma API backend organizada, evolutiva e testável, priorizando o isolamento das regras de negócio e a independência de detalhes técnicos como frameworks, banco de dados e camada web.
 
 ---
 
 ## Arquitetura
 
-A arquitetura segue os princípios da **Clean Architecture**, conforme apresentada em aula, onde as dependências sempre apontam para as camadas mais internas.
+O projeto segue os princípios da **Clean Architecture**, onde as dependências sempre apontam para as camadas mais internas, mantendo o domínio protegido de detalhes externos.
 
-### Clean Architecture (modelo conceitual)
+---
+
+## Diagrama de Dependências (Clean Architecture)
 
 ```mermaid
 flowchart LR
-  %% Clean Architecture - modelo clássico (Uncle Bob)
+    Controller[infra/controller]
+    UseCase[core/usecase]
+    Domain[core/domain]
+    Rule[core/rule]
+    Gateway[infra/gateway]
 
-  subgraph F["Frameworks & Drivers"]
-    WEB["Web / Spring MVC"]
-    DB["Database"]
-    EXT["External Services"]
-  end
+    Controller --> UseCase
+    UseCase --> Domain
+    UseCase --> Rule
+    UseCase --> Gateway
 
-  subgraph IA["Interface Adapters"]
-    CTRL["Controllers"]
-    PRES["Presenters / Mappers"]
-    GATE["Gateways - Repository Impl"]
-  end
-
-  subgraph UC["Use Cases"]
-    INP["Input Port"]
-    INTER["Use Case Interactor"]
-    OUTP["Output Port"]
-  end
-
-  subgraph ENT["Entities"]
-    ENTITIES["Entities"]
-    RULES["Business Rules"]
-  end
-
-  %% Fluxo de entrada
-  WEB --> CTRL --> INP --> INTER --> ENTITIES
-  ENTITIES --> RULES
-
-  %% Fluxo de saída
-  INTER --> OUTP
-  GATE --> OUTP
-  GATE --> DB
-  EXT --> OUTP
-
-  %% Adapters
-  CTRL --> PRES
-  PRES --> INP
+    Gateway -.implementa.-> UseCase
 ```
 
 ---
 
-### Regras de dependência
+## Estrutura de Pacotes – Clean Architecture
 
-- **Entities (Domain)**  
-  Contém as regras de negócio mais estáveis do sistema.  
-  Não depende de frameworks, banco de dados ou APIs.
+A organização do código é feita por **contexto de negócio**, e dentro de cada contexto a separação segue o modelo **core / infra**.
 
-- **Use Cases (Application)**  
-  Orquestram os fluxos do sistema e aplicam regras de negócio.  
-  Dependem apenas do domínio e se comunicam com o mundo externo por meio de **ports (interfaces)**.
+### Visão geral da estrutura
 
-- **Interface Adapters**  
-  Adaptam dados entre o formato externo (HTTP, DTOs, JSON) e o formato interno esperado pelos casos de uso.  
-  Incluem controllers, mappers/presenters e gateways.
+<contexto>
+ ├── core
+ │   ├── domain
+ │   ├── rule
+ │   ├── exception
+ │   └── usecase
+ └── infra
+     ├── controller
+     └── gateway
 
-- **Frameworks & Drivers (Infrastructure)**  
-  Contém detalhes técnicos como Spring, banco de dados e integrações externas.  
-  Implementa interfaces definidas nas camadas internas.
-
----
-
-### Regra fundamental
-
-> Nenhuma camada interna pode depender de uma camada externa.
-
-Em termos práticos:
-- Controllers dependem de Use Cases
-- Use Cases **não** dependem de Controllers
-- Implementações concretas dependem de interfaces
-- O domínio não conhece banco, framework ou API
+Exemplos de contextos no projeto:
+- cardapio
+- restaurante
+- usuario
 
 ---
 
-### Organização prática do projeto
+## Responsabilidade de cada pacote
 
-Embora o diagrama siga o modelo conceitual clássico da Clean Architecture, o projeto é organizado nas seguintes camadas:
+core/domain  
+Contém as entidades do domínio e objetos de valor.  
+É a camada mais interna e não depende de frameworks, banco de dados ou camada web.
 
-- `domain`
-- `application`
-- `interface/api`
-- `infrastructure`
+core/rule  
+Agrupa regras de negócio e validações reutilizáveis do domínio.  
+Permanece isolado de infraestrutura e frameworks.
 
-Mantendo as mesmas regras de dependência e responsabilidades.
+core/exception  
+Exceções relacionadas às regras de negócio e da aplicação, sem acoplamento a HTTP ou camada web.
+
+core/usecase  
+Camada de casos de uso (Application Layer).  
+Responsável por orquestrar o fluxo da aplicação, aplicando regras do domínio e delegando interações externas por meio de abstrações.
+
+infra/controller  
+Camada de entrada da aplicação (ex: REST Controllers).  
+Responsável apenas por receber requisições, validar dados de entrada e acionar os casos de uso.
+
+infra/gateway  
+Camada de infraestrutura, responsável por persistência, integrações externas ou comunicação com outros sistemas.  
+Implementa dependências utilizadas pelos casos de uso.
+
+---
+
+## Regras de dependência
+
+- O pacote core não depende de infra
+- O domínio não conhece frameworks
+- Controllers não contêm regra de negócio
+- Casos de uso centralizam a lógica da aplicação
+- Implementações concretas dependem de abstrações definidas no core
+
+Essa organização garante baixo acoplamento, alta coesão e facilita testes, manutenção e evolução do sistema.
 
 ---
 
 ## Decisões arquiteturais (ADRs)
 
-- [ADR 0001 — Adoção de Clean Architecture](docs/adr/0001-clean-architecture.md)
+As principais decisões arquiteturais do projeto são documentadas utilizando **Architectural Decision Records (ADR)**.
+
+- ADR 0001 — Adoção de Clean Architecture
