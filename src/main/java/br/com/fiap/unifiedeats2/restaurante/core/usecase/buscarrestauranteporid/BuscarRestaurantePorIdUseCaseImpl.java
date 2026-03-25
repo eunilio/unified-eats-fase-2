@@ -5,14 +5,12 @@ import br.com.fiap.unifiedeats2.compartilhado.core.mapper.EnderecoMapper;
 import br.com.fiap.unifiedeats2.restaurante.core.dto.BuscarRestaurantePorIdOutputDTO;
 import br.com.fiap.unifiedeats2.restaurante.core.dto.RestauranteOutputDTO;
 import br.com.fiap.unifiedeats2.restaurante.core.gateway.RestauranteGateway;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class BuscarRestaurantePorIdUseCaseImpl implements BuscarRestaurantePorIdUseCase {
 
     private final RestauranteGateway restauranteGateway;
-
-    public BuscarRestaurantePorIdUseCaseImpl(RestauranteGateway restauranteGateway) {
-        this.restauranteGateway = restauranteGateway;
-    }
 
     @Override
     public RestauranteOutputDTO run(Long id) {

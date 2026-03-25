@@ -5,19 +5,13 @@ import br.com.fiap.unifiedeats2.cardapio.core.dto.AtualizarItemCardapioInputDTO;
 import br.com.fiap.unifiedeats2.cardapio.core.gateway.ItemCardapioGateway;
 import br.com.fiap.unifiedeats2.compartilhado.core.exception.RecursoNaoEncontradoException;
 import br.com.fiap.unifiedeats2.restaurante.core.gateway.RestauranteGateway;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class AtualizarItemCardapioUseCaseImpl implements AtualizarItemCardapioUseCase {
 
     private final ItemCardapioGateway itemCardapioGateway;
     private final RestauranteGateway restauranteGateway;
-
-    public AtualizarItemCardapioUseCaseImpl(
-            ItemCardapioGateway itemCardapioGateway,
-            RestauranteGateway restauranteGateway
-    ) {
-        this.itemCardapioGateway = itemCardapioGateway;
-        this.restauranteGateway = restauranteGateway;
-    }
 
     @Override
     public void run(AtualizarItemCardapioInputDTO input) {

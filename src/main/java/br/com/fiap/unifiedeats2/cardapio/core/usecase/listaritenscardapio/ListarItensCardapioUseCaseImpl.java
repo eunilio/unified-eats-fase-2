@@ -5,21 +5,15 @@ import br.com.fiap.unifiedeats2.cardapio.core.gateway.ItemCardapioGateway;
 import br.com.fiap.unifiedeats2.cardapio.core.mapper.ItemCardapioOutputMapper;
 import br.com.fiap.unifiedeats2.compartilhado.core.exception.RecursoNaoEncontradoException;
 import br.com.fiap.unifiedeats2.restaurante.core.gateway.RestauranteGateway;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class ListarItensCardapioUseCaseImpl implements ListarItensCardapioUseCase {
 
     private final ItemCardapioGateway itemCardapioGateway;
     private final RestauranteGateway restauranteGateway;
-
-    public ListarItensCardapioUseCaseImpl(
-            ItemCardapioGateway itemCardapioGateway,
-            RestauranteGateway restauranteGateway
-    ) {
-        this.itemCardapioGateway = itemCardapioGateway;
-        this.restauranteGateway = restauranteGateway;
-    }
 
     @Override
     public List<ItemCardapioOutputDTO> run() {
