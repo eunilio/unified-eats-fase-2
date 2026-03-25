@@ -6,9 +6,7 @@ import br.com.fiap.unifiedeats2.compartilhado.core.exception.UsuarioNaoEncontrad
 import br.com.fiap.unifiedeats2.usuario.core.gateway.UsuarioGateway;
 import br.com.fiap.unifiedeats2.usuario.core.mapper.BuscarUsuarioPorIdOutputMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RequiredArgsConstructor
 public class BuscarUsuarioPorIdUseCaseImpl implements BuscarUsuarioPorIdUseCase {
 

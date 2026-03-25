@@ -5,19 +5,13 @@ import br.com.fiap.unifiedeats2.restaurante.core.domain.Restaurante;
 import br.com.fiap.unifiedeats2.restaurante.core.dto.AtualizarRestauranteInputDTO;
 import br.com.fiap.unifiedeats2.restaurante.core.gateway.RestauranteGateway;
 import br.com.fiap.unifiedeats2.usuario.core.gateway.UsuarioGateway;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class AtualizarRestauranteUseCaseImpl implements AtualizarRestauranteUseCase {
 
     private final RestauranteGateway restauranteGateway;
     private final UsuarioGateway usuarioGateway;
-
-    public AtualizarRestauranteUseCaseImpl(
-            RestauranteGateway restauranteGateway,
-            UsuarioGateway usuarioGateway
-    ) {
-        this.restauranteGateway = restauranteGateway;
-        this.usuarioGateway = usuarioGateway;
-    }
 
     @Override
     public void run(AtualizarRestauranteInputDTO input) {

@@ -8,21 +8,15 @@ import br.com.fiap.unifiedeats2.restaurante.core.dto.CadastrarRestauranteOutputD
 import br.com.fiap.unifiedeats2.restaurante.core.gateway.RestauranteGateway;
 import br.com.fiap.unifiedeats2.usuario.core.domain.Usuario;
 import br.com.fiap.unifiedeats2.usuario.core.gateway.UsuarioGateway;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class CadastrarRestauranteUseCaseImpl implements CadastrarRestauranteUseCase {
 
     private static final String TIPO_DONO_RESTAURANTE = "DONO_RESTAURANTE";
 
     private final RestauranteGateway restauranteGateway;
     private final UsuarioGateway usuarioGateway;
-
-    public CadastrarRestauranteUseCaseImpl(
-            RestauranteGateway restauranteGateway,
-            UsuarioGateway usuarioGateway
-    ) {
-        this.restauranteGateway = restauranteGateway;
-        this.usuarioGateway = usuarioGateway;
-    }
 
     @Override
     public CadastrarRestauranteOutputDTO run(CadastrarRestauranteInputDTO input) {
