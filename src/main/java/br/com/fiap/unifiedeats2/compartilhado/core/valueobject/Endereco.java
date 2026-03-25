@@ -1,9 +1,7 @@
 package br.com.fiap.unifiedeats2.compartilhado.core.valueobject;
 
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 
-@Getter
 @EqualsAndHashCode
 public class Endereco {
 
@@ -24,6 +22,34 @@ public class Endereco {
         this.bairro = validaCampoObrigatorio(bairro, "Bairro inválido");
         this.cidade = validaCampoObrigatorio(cidade, "Cidade inválida");
         this.estado = validaCampoObrigatorio(estado, "Estado inválido").toUpperCase();
+    }
+
+    public String cep() {
+        return cep;
+    }
+
+    public String logradouro() {
+        return logradouro;
+    }
+
+    public String numero() {
+        return numero;
+    }
+
+    public String complemento() {
+        return complemento;
+    }
+
+    public String bairro() {
+        return bairro;
+    }
+
+    public String cidade() {
+        return cidade;
+    }
+
+    public String estado() {
+        return estado;
     }
 
     private String validaCampoObrigatorio(String valor, String mensagem) {
