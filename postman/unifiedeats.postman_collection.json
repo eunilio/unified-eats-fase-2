@@ -1,0 +1,2116 @@
+{
+  "info": {
+    "_postman_id": "6fa6967e-f333-41f5-8201-88f0cc9e9dd6",
+    "name": "unifiedeats",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "11203658",
+    "_collection_link": "https://go.postman.co/collection/11203658-6fa6967e-f333-41f5-8201-88f0cc9e9dd6?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "01 - TipoUsuario",
+      "item": [
+        {
+          "name": "01 - Criar Cliente (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201 ou 200\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+                  "});\r",
+                  "\r",
+                  "const location = pm.response.headers.get(\"Location\");\r",
+                  "\r",
+                  "if (location) {\r",
+                  "    const id = location.split(\"/\").pop();\r",
+                  "    pm.environment.set(\"idTipoUsuarioCliente\", id);\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"CLIENTE\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/tipos-usuario",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "tipos-usuario"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "02 - Criar Dono (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201 ou 200\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+                  "});\r",
+                  "\r",
+                  "const location = pm.response.headers.get(\"Location\");\r",
+                  "\r",
+                  "if (location) {\r",
+                  "    const id = location.split(\"/\").pop();\r",
+                  "    pm.environment.set(\"idTipoUsuarioDono\", id);\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"DONO_RESTAURANTE\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/tipos-usuario",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "tipos-usuario"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "03 - Criar inválido (falha 400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/tipos-usuario",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "tipos-usuario"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "04 - Listar",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Resposta é uma lista\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json).to.be.an(\"array\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/tipos-usuario",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "tipos-usuario"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "05 - Buscar por ID (CLIENTE)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Retornou o tipo CLIENTE\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json.id).to.eql(Number(pm.environment.get(\"idTipoUsuarioCliente\")));\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/tipos-usuario/{{idTipoUsuarioCliente}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "tipos-usuario",
+                "{{idTipoUsuarioCliente}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "06 - Atualizar (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 204 ou 200\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"CLIENTE_ATUALIZADO\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/tipos-usuario/{{idTipoUsuarioCliente}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "tipos-usuario",
+                "{{idTipoUsuarioCliente}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "07 - Buscar por ID (após atualização)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Nome atualizado\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json.nome).to.eql(\"CLIENTE_ATUALIZADO\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/tipos-usuario/{{idTipoUsuarioCliente}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "tipos-usuario",
+                "{{idTipoUsuarioCliente}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "08 - Excluir inexistente (falha 404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/tipos-usuario/999999",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "tipos-usuario",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "48 - Excluir Cliente (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 204 ou 200\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/tipos-usuario/{{idTipoUsuarioCliente}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "tipos-usuario",
+                "{{idTipoUsuarioCliente}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "49 - Excluir Dono (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 204 ou 200\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/tipos-usuario/{{idTipoUsuarioDono}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "tipos-usuario",
+                "{{idTipoUsuarioDono}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "50 - Buscar excluído (falha 404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/tipos-usuario/{{idTipoUsuarioCliente}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "tipos-usuario",
+                "{{idTipoUsuarioCliente}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "02 - Usuarios",
+      "item": [
+        {
+          "name": "09 - Criar Cliente (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "const location = pm.response.headers.get(\"Location\");\r",
+                  "const id = location.split(\"/\").pop();\r",
+                  "\r",
+                  "pm.environment.set(\"idUsuarioCliente\", id);\r",
+                  "\r",
+                  "pm.test(\"idUsuarioCliente salvo\", function () {\r",
+                  "    pm.expect(pm.environment.get(\"idUsuarioCliente\")).to.exist;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Usuario Cliente\",\r\n  \"email\": \"cliente.teste@email.com\",\r\n  \"login\": \"{{loginCliente}}\",\r\n  \"senha\": \"{{senhaCliente}}\",\r\n  \"endereco\": {\r\n    \"cep\": \"03450000\",\r\n    \"logradouro\": \"Rua Cliente\",\r\n    \"numero\": \"100\",\r\n    \"complemento\": \"Casa\",\r\n    \"bairro\": \"Vila Carrão\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"SP\"\r\n  },\r\n  \"tipoUsuarios\": [\r\n    {\r\n      \"id\": {{idTipoUsuarioCliente}}\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "10 - Criar Dono (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "const location = pm.response.headers.get(\"Location\");\r",
+                  "const id = location.split(\"/\").pop();\r",
+                  "\r",
+                  "pm.environment.set(\"idUsuarioDono\", id);\r",
+                  "\r",
+                  "pm.test(\"idUsuarioDono salvo\", function () {\r",
+                  "    pm.expect(pm.environment.get(\"idUsuarioDono\")).to.exist;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Usuario Dono\",\r\n  \"email\": \"dono.teste@email.com\",\r\n  \"login\": \"{{loginDono}}\",\r\n  \"senha\": \"{{senhaDono}}\",\r\n  \"endereco\": {\r\n    \"cep\": \"03450001\",\r\n    \"logradouro\": \"Rua Dono\",\r\n    \"numero\": \"200\",\r\n    \"complemento\": \"Sala 2\",\r\n    \"bairro\": \"Tatuapé\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"SP\"\r\n  },\r\n  \"tipoUsuarios\": [\r\n    {\r\n      \"id\": {{idTipoUsuarioDono}}\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "11 - Criar (falha 400 - validação)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Jo\",\r\n  \"email\": \"email-invalido\",\r\n  \"login\": \"\",\r\n  \"senha\": \"123\",\r\n  \"tipoUsuarios\": null,\r\n  \"endereco\": null\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "12 - Criar email duplicado (falha 409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 409\", function () {\r",
+                  "    pm.response.to.have.status(409);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Usuario Cliente Duplicado\",\r\n  \"email\": \"cliente.teste@email.com\",\r\n  \"login\": \"cliente.duplicado\",\r\n  \"senha\": \"123456\",\r\n  \"endereco\": {\r\n    \"cep\": \"03450002\",\r\n    \"logradouro\": \"Rua Duplicada\",\r\n    \"numero\": \"300\",\r\n    \"complemento\": \"Apto 1\",\r\n    \"bairro\": \"Mooca\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"SP\"\r\n  },\r\n  \"tipoUsuarios\": [\r\n    {\r\n      \"id\": {{idTipoUsuarioCliente}}\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "13 - Buscar Dono por ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Retornou o usuário dono\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(String(json.id)).to.eql(String(pm.environment.get(\"idUsuarioDono\")));\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios/{{idUsuarioDono}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios",
+                "{{idUsuarioDono}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "14 - Listar",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Resposta é uma lista\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json).to.be.an(\"array\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "15 - Buscar por nome",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Resposta é uma lista\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json).to.be.an(\"array\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios/buscar?nome=Usuario",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios",
+                "buscar"
+              ],
+              "query": [
+                {
+                  "key": "nome",
+                  "value": "Usuario"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "16  - Atualizar Cliente (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 204 ou 200\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+                  "});\r",
+                  "\r",
+                  "pm.environment.set(\"novoLoginCriado\", \"cliente.atualizado\");\r",
+                  "pm.environment.set(\"novoEmailCriado\", \"cliente.atualizado@email.com\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Usuario Cliente Atualizado\",\r\n  \"email\": \"cliente.atualizado@email.com\",\r\n  \"login\": \"cliente.atualizado\",\r\n  \"endereco\": {\r\n    \"cep\": \"03450010\",\r\n    \"logradouro\": \"Rua Cliente Atualizada\",\r\n    \"numero\": \"101\",\r\n    \"complemento\": \"Casa 2\",\r\n    \"bairro\": \"Vila Carrão\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"SP\"\r\n  },\r\n  \"tipoUsuarios\": [\r\n    {\r\n      \"id\": {{idTipoUsuarioCliente}}\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios/{{idUsuarioCliente}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios",
+                "{{idUsuarioCliente}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "17 - Buscar Cliente Atualizado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Nome foi atualizado\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json.nome).to.eql(\"Usuario Cliente Atualizado\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios/{{idUsuarioCliente}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios",
+                "{{idUsuarioCliente}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "18 - Alterar senha Cliente (sucesso)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"novaSenha\", \"NovaSenha_\" + Date.now());"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 204 ou 200\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+                  "});\r",
+                  "\r",
+                  "pm.environment.set(\"senhaCliente\", \"654321\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"senhaAtual\": \"{{senhaCliente}}\",\r\n  \"novaSenha\": \"654321\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios/{{idUsuarioCliente}}/senha",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios",
+                "{{idUsuarioCliente}}",
+                "senha"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "19 - Alterar senha inválida (falha 400/401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 400 ou 401\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 401]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"senhaAtual\": \"senha.errada\",\r\n  \"novaSenha\": \"999999\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios/{{idUsuarioCliente}}/senha",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios",
+                "{{idUsuarioCliente}}",
+                "senha"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "20 - Buscar inexistente (falha 404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios/999999",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "21 - Excluir inexistente (falha 404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios/999999",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "46 - Excluir Cliente (sucesso)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios/{{idUsuarioCliente}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios",
+                "{{idUsuarioCliente}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "47 - Excluir Dono (sucesso)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/usuarios/{{idUsuarioDono}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "usuarios",
+                "{{idUsuarioDono}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "03 - Autenticacao",
+      "item": [
+        {
+          "name": "22 - Login Cliente (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Resposta contém dados do usuário\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json).to.be.an(\"object\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"login\": \"cliente.atualizado\",\r\n  \"senha\": \"{{senhaCliente}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/autenticacao/login",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "autenticacao",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "23 - Login Dono (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Resposta contém dados do usuário\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json).to.be.an(\"object\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"login\": \"{{loginDono}}\",\r\n  \"senha\": \"{{senhaDono}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/autenticacao/login",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "autenticacao",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "24 - Login inválido (falha 401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 401\", function () {\r",
+                  "    pm.response.to.have.status(401);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"login\": \"{{loginDono}}\",\r\n  \"senha\": \"senha.errada\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/autenticacao/login",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "autenticacao",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "25 - Login inexistente (falha 401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 401\", function () {\r",
+                  "    pm.response.to.have.status(401);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"login\": \"usuario.inexistente\",\r\n  \"senha\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/autenticacao/login",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "autenticacao",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "04 - Restaurantes",
+      "item": [
+        {
+          "name": "26 - Criar (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "const location = pm.response.headers.get(\"Location\");\r",
+                  "const id = location.split(\"/\").pop();\r",
+                  "\r",
+                  "pm.environment.set(\"idRestaurante\", id);\r",
+                  "\r",
+                  "pm.test(\"idUsuarioDono2 salvo\", function () {\r",
+                  "    pm.expect(pm.environment.get(\"idRestaurante\")).to.exist;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Restaurante A\",\r\n  \"endereco\": {\r\n    \"cep\": \"03450020\",\r\n    \"logradouro\": \"Rua Restaurante A\",\r\n    \"numero\": \"10\",\r\n    \"complemento\": \"Loja 1\",\r\n    \"bairro\": \"Vila Carrão\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"SP\"\r\n  },\r\n  \"tipoCozinha\": \"Brasileira\",\r\n  \"horarioFuncionamento\": \"09:00 às 22:00\",\r\n  \"donoId\": {{idUsuarioDono}}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/restaurantes",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "restaurantes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "27 - Criar dono inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Restaurante Inexistente\",\r\n  \"endereco\": {\r\n    \"cep\": \"03450050\",\r\n    \"logradouro\": \"Rua Inexistente\",\r\n    \"numero\": \"50\",\r\n    \"complemento\": \"Loja\",\r\n    \"bairro\": \"Centro\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"SP\"\r\n  },\r\n  \"tipoCozinha\": \"Japonesa\",\r\n  \"horarioFuncionamento\": \"08:00 às 20:00\",\r\n  \"donoId\": 999999\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/restaurantes",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "restaurantes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "28 - Criar nome vazio (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"\",\r\n  \"endereco\": {\r\n    \"cep\": \"03450060\",\r\n    \"logradouro\": \"Rua Nome Vazio\",\r\n    \"numero\": \"60\",\r\n    \"complemento\": \"Loja\",\r\n    \"bairro\": \"Penha\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"SP\"\r\n  },\r\n  \"tipoCozinha\": \"Mexicana\",\r\n  \"horarioFuncionamento\": \"09:00 às 18:00\",\r\n  \"donoId\": {{idUsuarioDono}}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/restaurantes",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "restaurantes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "29 - Criar com cliente (falha esperada depois)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status de falha\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 403, 404]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Restaurante Cliente\",\r\n  \"endereco\": {\r\n    \"cep\": \"03450040\",\r\n    \"logradouro\": \"Rua Cliente Restaurante\",\r\n    \"numero\": \"40\",\r\n    \"complemento\": \"Loja\",\r\n    \"bairro\": \"Mooca\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"SP\"\r\n  },\r\n  \"tipoCozinha\": \"Árabe\",\r\n  \"horarioFuncionamento\": \"11:00 às 21:00\",\r\n  \"donoId\": {{idUsuarioCliente}}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/restaurantes",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "restaurantes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "30 - Buscar por ID (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/restaurantes/{{idRestaurante}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "restaurantes",
+                "{{idRestaurante}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "31 - Buscar por ID inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/restaurantes/999999",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "restaurantes",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "32 - Listar",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Resposta é uma lista\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json).to.be.an(\"array\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/restaurantes",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "restaurantes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "33 - Atualizar (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200 ou 204\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Restaurante A Atualizado\",\r\n  \"endereco\": {\r\n    \"cep\": \"03450021\",\r\n    \"logradouro\": \"Rua Restaurante A Atualizada\",\r\n    \"numero\": \"11\",\r\n    \"complemento\": \"Loja 1\",\r\n    \"bairro\": \"Vila Carrão\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"SP\"\r\n  },\r\n  \"tipoCozinha\": \"Brasileira Contemporânea\",\r\n  \"horarioFuncionamento\": \"09:00 às 23:00\",\r\n  \"donoId\": {{idUsuarioDono}}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/restaurantes/{{idRestaurante}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "restaurantes",
+                "{{idRestaurante}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "34 - Atualizar inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Restaurante Inexistente\",\r\n  \"endereco\": {\r\n    \"cep\": \"03450022\",\r\n    \"logradouro\": \"Rua X\",\r\n    \"numero\": \"1\",\r\n    \"complemento\": \"Loja\",\r\n    \"bairro\": \"Centro\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"SP\"\r\n  },\r\n  \"tipoCozinha\": \"Teste\",\r\n  \"horarioFuncionamento\": \"09:00 às 18:00\",\r\n  \"donoId\": {{idUsuarioDono}}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/restaurantes/999999",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "restaurantes",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "35 - Excluir inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/restaurantes/999999",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "restaurantes",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "45 - Excluir (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200 ou 204\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "DELETE {{urlBase}}/v1/restaurantes/{{idRestaurante}}",
+              "host": [
+                "DELETE {{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "restaurantes",
+                "{{idRestaurante}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "05 - ItemCardapio",
+      "item": [
+        {
+          "name": "36 - Criar (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "const location = pm.response.headers.get(\"Location\");\r",
+                  "const id = location.split(\"/\").pop();\r",
+                  "\r",
+                  "pm.environment.set(\"idItemCardapio\", id);\r",
+                  "\r",
+                  "pm.test(\"idItemCardapio salvo\", function () {\r",
+                  "    pm.expect(pm.environment.get(\"idItemCardapio\")).to.exist;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Hamburguer\",\r\n  \"descricao\": \"Hamburguer artesanal\",\r\n  \"preco\": 29.90,\r\n  \"disponivelApenasNoLocal\": false,\r\n  \"foto\": \"hamburguer.jpg\",\r\n  \"restauranteId\": {{idRestaurante}}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/itens-cardapio",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "itens-cardapio"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "37 - Listar",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Resposta é lista\", function () {\r",
+                  "    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/itens-cardapio",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "itens-cardapio"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "38 - Buscar por ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/itens-cardapio/{{idItemCardapio}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "itens-cardapio",
+                "{{idItemCardapio}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "39 - Criar restaurante inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Pizza\",\r\n  \"descricao\": \"Pizza grande\",\r\n  \"preco\": 50.00,\r\n  \"disponivelApenasNoLocal\": true,\r\n  \"foto\": \"pizza.jpg\",\r\n  \"restauranteId\": 999999\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/itens-cardapio",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "itens-cardapio"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "40 - Criar preco inválido (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Suco\",\r\n  \"descricao\": \"Suco natural\",\r\n  \"preco\": 0,\r\n  \"disponivelApenasNoLocal\": true,\r\n  \"foto\": \"suco.jpg\",\r\n  \"restauranteId\": {{idRestaurante}}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/itens-cardapio",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "itens-cardapio"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "41 - Atualizar (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200 ou 204\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Hamburguer Atualizado\",\r\n  \"descricao\": \"Hamburguer artesanal especial\",\r\n  \"preco\": 35.00,\r\n  \"disponivelApenasNoLocal\": false,\r\n  \"foto\": \"hamburguer2.jpg\",\r\n  \"restauranteId\": {{idRestaurante}}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/itens-cardapio/{{idItemCardapio}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "itens-cardapio",
+                "{{idItemCardapio}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "42 - Atualizar inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Teste\",\r\n  \"descricao\": \"Teste\",\r\n  \"preco\": 10,\r\n  \"disponivelApenasNoLocal\": true,\r\n  \"foto\": \"teste.jpg\",\r\n  \"restauranteId\": {{idRestaurante}}\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/itens-cardapio/999999",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "itens-cardapio",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "43 - Excluir inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{urlBase}}/v1/itens-cardapio/999999",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "itens-cardapio",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "44 - Excluir (sucesso)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200 ou 204\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{urlBase}}/v1/itens-cardapio/{{idItemCardapio}}",
+              "host": [
+                "{{urlBase}}"
+              ],
+              "path": [
+                "v1",
+                "itens-cardapio",
+                "{{idItemCardapio}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}

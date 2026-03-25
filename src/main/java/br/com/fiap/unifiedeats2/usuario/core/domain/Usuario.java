@@ -1,6 +1,7 @@
 package br.com.fiap.unifiedeats2.usuario.core.domain;
 
 import br.com.fiap.unifiedeats2.compartilhado.core.valueobject.Endereco;
+import br.com.fiap.unifiedeats2.tipousuario.core.domain.TipoUsuario;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 public class Usuario {
 
+    private Long id;
     private String nome;
     private String email;
     private String login;
@@ -17,7 +19,6 @@ public class Usuario {
     private LocalDateTime ultimaAtualizacao;
     private Endereco endereco;
     private List<TipoUsuario> tipoUsuarios;
-
 
     public Usuario(String nome, String email, String login, String senha, Endereco endereco, List<TipoUsuario> tipoUsuarios) {
         verificaNome(nome);
@@ -30,12 +31,66 @@ public class Usuario {
         this.ultimaAtualizacao = LocalDateTime.now();
     }
 
-    public void atualizarCadastro(String nome, String email, String login, Endereco endereco, List<TipoUsuario> tipoUsuarios) {
+    public Usuario(Long id, String nome, String email, String login, String senha,
+                   Endereco endereco, List<TipoUsuario> tipoUsuarios) {
+        this.id = id;
+        verificaNome(nome);
+        verificaEmail(email);
+        verificaLogin(login);
+        verificaSenha(senha);
+        verificaEndereco(endereco);
+        verificaTipoUsuarios(tipoUsuarios);
+    }
+
+    public Long id() {
+        return this.id;
+    }
+
+    public String nome() {
+        return this.nome;
+    }
+
+    public String email() {
+        return this.email;
+    }
+
+    public String login() {
+        return this.login;
+    }
+
+    public String senha() {
+        return this.senha;
+    }
+
+    public LocalDateTime ultimaAtualizacao() {
+        return this.ultimaAtualizacao;
+    }
+
+    public Endereco endereco() {
+        return this.endereco;
+    }
+
+    public List<TipoUsuario> tipoUsuarios() {
+        return List.copyOf(this.tipoUsuarios);
+    }
+
+    public boolean  possuiEmail(String email) {
+        return this.email.equalsIgnoreCase(email);
+    }
+
+    public boolean possuiLogin(String login) {
+        return this.login.equalsIgnoreCase(login);
+    }
+
+    public boolean senhaIgualA(String senhaInformada) {
+        return this.senha.equals(senhaInformada);
+    }
+
+    public void atualizarCadastro(String nome, String email, String login, Endereco endereco) {
         verificaNome(nome);
         verificaEmail(email);
         verificaLogin(login);
         verificaEndereco(endereco);
-        verificaTipoUsuarios(tipoUsuarios);
 
         this.ultimaAtualizacao = LocalDateTime.now();
     }
@@ -46,32 +101,26 @@ public class Usuario {
     }
 
     public void adicionaTipoUsuario(TipoUsuario tipoUsuario) {
-        verificaTipoUsuario(tipoUsuario);
+        if (tipoUsuario == null) {
+            throw new IllegalArgumentException("Tipo Usuário inválido");
+        }
 
         List<TipoUsuario> novaLista = new ArrayList<>(this.tipoUsuarios);
         novaLista.add(tipoUsuario);
 
         verificaTipoUsuarios(novaLista);
-
         this.ultimaAtualizacao = LocalDateTime.now();
     }
 
     public void removerTipoUsuario(TipoUsuario tipoUsuario) {
-        verificaTipoUsuario(tipoUsuario);
-
-        if (!this.tipoUsuarios.contains(tipoUsuario)) {
-            throw new IllegalArgumentException("Tipo Usuário não encontrado para o usuário");
-        }
-
-        if (this.tipoUsuarios.size() <= 1) {
-            throw new IllegalArgumentException("Deve ter pelo menos um Tipo Usuário");
+        if (tipoUsuario == null) {
+            throw new IllegalArgumentException("Tipo Usuário inválido");
         }
 
         List<TipoUsuario> novaLista = new ArrayList<>(this.tipoUsuarios);
         novaLista.remove(tipoUsuario);
 
         verificaTipoUsuarios(novaLista);
-
         this.ultimaAtualizacao = LocalDateTime.now();
     }
 
@@ -83,13 +132,18 @@ public class Usuario {
     }
 
     private void verificaEmail(String email) {
-        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-        email = email.trim();
-
-        if (!email.matches(regex)) {
-            throw new IllegalArgumentException("Email inválido");
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email inválido.");
         }
-        this.email = email.trim();
+
+        String emailFormatado = email.trim();
+
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        if (!emailFormatado.matches(regex)) {
+            throw new IllegalArgumentException("Email inválido.");
+        }
+
+        this.email = emailFormatado;
     }
 
     private void verificaLogin(String login) {

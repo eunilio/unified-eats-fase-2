@@ -1,105 +1,110 @@
-# Unified Eats – Tech Challenge Fase 2
+# 🍽️ Unified Eats API – Fase 2
 
-Projeto desenvolvido como parte do **Tech Challenge – Fase 2 (FIAP)**, com foco em **Clean Architecture**, boas práticas de design, separação de responsabilidades e evolução do domínio de forma desacoplada de frameworks.
+Projeto desenvolvido como parte do **Tech Challenge – Pós FIAP (Arquitetura e Desenvolvimento Java)**.
 
----
-
-## Objetivo
-
-Construir uma API backend organizada, evolutiva e testável, priorizando o isolamento das regras de negócio e a independência de detalhes técnicos como frameworks, banco de dados e camada web.
+Esta API fornece endpoints para gerenciamento de usuários, tipos de usuário, restaurantes e itens de cardápio, seguindo boas práticas de arquitetura REST e Clean Architecture.
 
 ---
 
-## Arquitetura
+## 🚀 Tecnologias Utilizadas
 
-O projeto segue os princípios da **Clean Architecture**, onde as dependências sempre apontam para as camadas mais internas, mantendo o domínio protegido de detalhes externos.
-
----
-
-## Diagrama de Dependências (Clean Architecture)
-
-```mermaid
-flowchart LR
-    Controller[infra/controller]
-    UseCase[core/usecase]
-    Domain[core/domain]
-    Rule[core/rule]
-    Gateway[infra/gateway]
-
-    Controller --> UseCase
-    UseCase --> Domain
-    UseCase --> Rule
-    UseCase --> Gateway
-
-    Gateway -.implementa.-> UseCase
-```
+- ☕ Java 21
+- 🌱 Spring Boot
+- 🗄️ Spring Data JPA
+- 🐬 MySQL 8
+- 🐳 Docker e Docker Compose
+- 📘 Swagger / OpenAPI
+- 📬 Postman
+- 🧪 JUnit e Mockito
 
 ---
 
-## Estrutura de Pacotes – Clean Architecture
+## ▶️ Como rodar o projeto
 
-A organização do código é feita por **contexto de negócio**, e dentro de cada contexto a separação segue o modelo **core / infra**.
+### Pré-requisitos
 
-### Visão geral da estrutura
-
-<contexto>
- ├── core
- │   ├── domain
- │   ├── rule
- │   ├── exception
- │   └── usecase
- └── infra
-     ├── controller
-     └── gateway
-
-Exemplos de contextos no projeto:
-- cardapio
-- restaurante
-- usuario
+- Docker
+- Docker Compose
 
 ---
 
-## Responsabilidade de cada pacote
+### Subindo a aplicação
 
-core/domain  
-Contém as entidades do domínio e objetos de valor.  
-É a camada mais interna e não depende de frameworks, banco de dados ou camada web.
+No diretório raiz do projeto, execute:
 
-core/rule  
-Agrupa regras de negócio e validações reutilizáveis do domínio.  
-Permanece isolado de infraestrutura e frameworks.
+docker compose up --build
 
-core/exception  
-Exceções relacionadas às regras de negócio e da aplicação, sem acoplamento a HTTP ou camada web.
-
-core/usecase  
-Camada de casos de uso (Application Layer).  
-Responsável por orquestrar o fluxo da aplicação, aplicando regras do domínio e delegando interações externas por meio de abstrações.
-
-infra/controller  
-Camada de entrada da aplicação (ex: REST Controllers).  
-Responsável apenas por receber requisições, validar dados de entrada e acionar os casos de uso.
-
-infra/gateway  
-Camada de infraestrutura, responsável por persistência, integrações externas ou comunicação com outros sistemas.  
-Implementa dependências utilizadas pelos casos de uso.
+Aguarde até que os containers estejam totalmente inicializados.
 
 ---
 
-## Regras de dependência
+## 🌐 URLs importantes
 
-- O pacote core não depende de infra
-- O domínio não conhece frameworks
-- Controllers não contêm regra de negócio
-- Casos de uso centralizam a lógica da aplicação
-- Implementações concretas dependem de abstrações definidas no core
-
-Essa organização garante baixo acoplamento, alta coesão e facilita testes, manutenção e evolução do sistema.
+- API: http://localhost:8080  
+- Swagger UI: http://localhost:8080/swagger-ui/index.html  
 
 ---
 
-## Decisões arquiteturais (ADRs)
+## 🗄️ Banco de Dados
 
-As principais decisões arquiteturais do projeto são documentadas utilizando **Architectural Decision Records (ADR)**.
+- Banco: MySQL 8  
+- Porta: 3307  
+- Database: tech_challenge  
 
-- ADR 0001 — Adoção de Clean Architecture
+---
+
+## 🧪 Testes com Postman
+
+Arquivos:
+
+postman/
+unifiedeats.postman_collection.json
+local.postman_environment.json
+
+---
+
+## ⚙️ Funcionalidades Implementadas
+
+### 👤 Usuários
+- CRUD de usuários  
+- Busca por nome  
+- Validação de e-mail único  
+- Autenticação  
+- Alteração de senha  
+- Atualização de dados  
+
+### 🏷️ Tipos de Usuário
+- CRUD de tipos de usuário  
+
+### 🍽️ Restaurantes
+- CRUD de restaurantes  
+
+### 📋 Itens de Cardápio
+- CRUD de itens  
+
+---
+
+## 🏗️ Arquitetura
+
+- Domain  
+- Application  
+- Infrastructure  
+
+---
+
+## 🧪 Testes
+
+- JUnit + Mockito  
+- Cobertura ~80%  
+
+---
+
+## 📘 Swagger
+
+http://localhost:8080/swagger-ui/index.html
+
+---
+
+## 🎓 Sobre
+
+Tech Challenge – FIAP
